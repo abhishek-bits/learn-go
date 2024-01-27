@@ -108,3 +108,89 @@ We can't redeclare variables in the same scope but we can re-assign the same var
 
 - Go does not have any implicit type conversions, it provides _conversion methods_ to convert from one type to other.
 - We must use `strconv` package for strings.
+
+## Primitives
+
+### Boolean type
+
+- Values are `true` or `false`.
+- Not an alias for other types (e.g. int)
+- Zero value is false.
+
+### Numeric types
+
+#### Integers
+
+##### Signed Integers
+
+| Type  | Range                                       |
+| ----- | ------------------------------------------- |
+| int8  | -128 to 127                                 |
+| int16 | -32768 to 32767                             |
+| int32 | -2147483648 to 2147483647                   |
+| int64 | -9223372036854775808 to 9223372036854775807 |
+
+##### Unsigned Integers
+
+| Type   | Range          |
+| ------ | -------------- |
+| uint8  | 0 - 255        |
+| uint16 | 0 - 65535      |
+| uint32 | 0 - 4294967295 |
+
+We don't have any unsigned int of 64 bits but we do have a type called `byte`.
+
+A `byte` is an alias for an 8 bit unsigned integer. The reason is that an unsigned 8 bit integer is very common, becuase that's what a lot of data streams are used to encode their data.
+
+#### Floating point
+
+Floating point numbers in go follow IEEE 754 standard.
+
+| Type    | Range                   |
+| ------- | ----------------------- |
+| float32 | +-1.18E-38 - +-3.4E38   |
+| float64 | +-2.23E-308 - +-1.8E308 |
+
+Floating point numbers do not have modulus operator or any bitwise/bitshift operators.
+
+#### Complex numbers
+
+| Type       | Range               |
+| ---------- | ------------------- |
+| complex64  | float32 + float32 i |
+| complex128 | float64 + float64 i |
+
+Useful methods:
+
+| Method      | Usage                                                        |
+| ----------- | ------------------------------------------------------------ |
+| `real()`    | To extract the real part of the complex number.              |
+| `imag()`    | To extract the imaginary part of the complex number.         |
+| `complex()` | To create the complex number given real and imaginary parts. |
+
+### Text types
+
+#### String
+
+Strings in go:
+
+- are collection of indexed **UTF-8** (or **ASCII**) characters.
+- are basically an alias for **bytes**.
+- are immutable meaning their values cannot be modified.
+
+Given a string `s`, we can convert into a slice of bytes using `[]byte(s)` which will give us `[]uint8`. Similary we can use `string()` method to convert a `[]byte` (or `[]unit8`) into string.
+
+**NOTE**: `uint8` is basically an alias for `byte`.
+
+Converting strings to stream of bytes is useful because it makes working with strings way more efficient. This ability is really useful when we sending our string results out to an external service.
+
+#### Ruines
+
+Runes in go:
+
+- represents any **UTF-32** character.
+- **true type alias** for an `int32`.
+
+**NOTE**: Where strings can be converted back and forth between collection of bytes, runes are a true type alias meaning declaring an `int32` or a `rune` would mean the same thing.
+
+Ref: [strings#Reader](https://pkg.go.dev/strings#Reader)
