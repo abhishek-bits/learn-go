@@ -184,7 +184,7 @@ Given a string `s`, we can convert into a slice of bytes using `[]byte(s)` which
 
 Converting strings to stream of bytes is useful because it makes working with strings way more efficient. This ability is really useful when we sending our string results out to an external service.
 
-#### Ruines
+#### Runes
 
 Runes in go:
 
@@ -194,3 +194,36 @@ Runes in go:
 **NOTE**: Where strings can be converted back and forth between collection of bytes, runes are a true type alias meaning declaring an `int32` or a `rune` would mean the same thing.
 
 Ref: [strings#Reader](https://pkg.go.dev/strings#Reader)
+
+## Constants
+
+- Immutable, but can be shadowed.
+- Replaced by the compiler at compile time i.e. value must be calculable at compile time.
+
+### Naming Convention
+
+Named like variables.
+
+- `PascalCase` for exported constants.
+- `camelCase` for internal constants.
+
+### Typed Constants
+
+- Typed constants work like immutable variables
+- They can interoperate only with same time (We have to apply conversion methods explicitly).
+
+### Untyped Constants
+
+- Untyped constants work like literals.
+- They can interoperate with similar types becuase they belong to general types (`int` / `float`) hence provide more flexibility.
+
+### Enumerated Constants
+
+- Special symbol `iota` allows related constants to be created easily.
+- `iota` starts with value `0` in each `const` block and increments by one. We can however skip some values for `iota` by using any offset and subsequent constants will then be assigned the next set of incremented values.
+- We must watch out for constant values which match zero values for variables.
+
+### Enumeration Expression
+
+- Having constants defined using enumeration expression (such as bitshift) for a byte makes the operation really efficient.
+- Makes the code clear and concise.
