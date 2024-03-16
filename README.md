@@ -227,3 +227,52 @@ Named like variables.
 
 - Having constants defined using enumeration expression (such as bitshift) for a byte makes the operation really efficient.
 - Makes the code clear and concise.
+
+## Arrays and Slices
+
+These are the first two collection types available in Go.
+
+### Arrays
+
+- Collection of items with the same type.
+- Fixed size.
+- Access via zero-based index.
+
+#### Declaration
+
+3 different ways:
+
+1. Literal style `a := [3]int{1,2,3}`
+2. Robust style `a := [...]int{1,2,3}`
+3. Generic `var a [3]int`
+
+#### Built-in functions
+
+- `len()` returns the length of the array
+
+#### Working with arrays
+
+- Copies refer to different underlying data.
+
+### Slices
+
+- Backed by arrays.
+
+#### Declaration
+
+- Slice existing array or slice.
+- Literal style: `a := []int{1,2,3}`
+- Via make function
+  - Create a slice with capacity and length = 10 `a := make([]int, 10)`.
+  - Create a slice with length = 10 and capacity = 100 `a := make([]int, 10, 100)`.
+
+#### Built-in functions
+
+- `len()` returns the length of the slice.
+- `cap()` returns the length of the underlying array.
+- `append()` adds elements to the slice.
+  - May cause expensive copy operation if underlying array is too small.
+
+#### Working with slices
+
+- Copies refer to same underlying array.
