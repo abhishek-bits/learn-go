@@ -7,8 +7,8 @@ import (
 func main() {
 
 	/*************************************************
-	 * 						ARRAYS					 *
-	 *************************************************/
+	 * ARRAYS
+	 */
 
 	// An array containing the grades
 	// grades := [3]int{97, 85, 93}
@@ -76,8 +76,8 @@ func main() {
 	fmt.Println(c) // [1, 5, 3]
 
 	/****************************************************
-	 * 						SLICES						*
-	 ****************************************************/
+	 * SLICES
+	 */
 
 	// Unlike arrays that have their size
 	// fixed at compile time,
