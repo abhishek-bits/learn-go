@@ -276,3 +276,30 @@ These are the first two collection types available in Go.
 #### Working with slices
 
 - Copies refer to same underlying array.
+
+## Maps
+
+- Collection of value types that are accessed via keys
+- Created via literals or via `make` function.
+- Members are accessed via `[key]` syntax
+  - `myMap["key"] = "value"`
+- Check for presence with `value, ok` form of result.
+- Maps are reference types. Multiple assignments refer to the same underlying data.
+
+## Structs
+
+- Collection of disparate data types that describe a single concept.
+- Keyed by named fields.
+  - If Capital first letter then exported outside of the package.
+  - If Lower first letter then scoped within the same package.
+- Normally created as types, but we can create anonymous structs if we want to.
+  - Common use case of short-lived anonymous struct would be to generate a JSON response to a web service call.
+- Structs are value types. Multiple assignments refer to their own copies of the data.
+
+### Embedding
+
+There is no concept of inheritance in Go, but can use composition via concept called embedding. So, when we have to embed one struct into other, we just give the type of the Struct and we don't give it a field name. Go is then going to automatically interpret that for us and delegate any calls for fields or methods in the containing struct down to the embedded struct if the Top level struct does not contain a member with that name.
+
+### Tags
+
+Tags can be added to struct fields to describe field. This may be some set of rules that must be obeyed for that particular field.
