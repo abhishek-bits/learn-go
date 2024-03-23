@@ -303,3 +303,71 @@ There is no concept of inheritance in Go, but can use composition via concept ca
 ### Tags
 
 Tags can be added to struct fields to describe field. This may be some set of rules that must be obeyed for that particular field.
+
+## Conditionals
+
+### If statments
+
+Both the initializer as well as conditional expression together in a typical if statement in go:
+
+```go
+if pop, ok := statePopulations["Florida"]; ok {
+  fmt.Println(pop)
+}
+```
+
+We have to be very careful when working with mathematical expression using float types; Here is a more advanced method, that basically uses _errror function_ to compare float types:
+
+```go
+myNum = 0.123567899
+if math.Abs(myNum / math.Pow(math.Sqrt(myNum), 2) - 1) < 0.001 {
+  fmt.Println("Same!")
+} else {
+  fmt.Println("Different")
+}
+```
+
+### Switch statements
+
+- Break statement in case block of a switch statement is already implied; However, we can apply `break` in case we want to branch out early.
+
+- We can use `fallthrough` to bypass the default implied `break` behavior regardless of whether the expression given in the following case block executes to false.
+
+- We do not need to have curly braces to write multiple statments in a specific case of a switch statement.
+
+- Tag initialization with mathematical expression and cases with multiple tags:
+
+```go
+switch num := 2 + 3; num {
+case 1, 5, 10:
+  fmt.Println("one, filve, ten")
+case 2, 4, 6:
+  fmt.Println("two, four, six")
+default:
+  fmt.Println("another number")
+}
+```
+
+- We can also have range checks for each particular case of a switch statement. Note that, in case of overlapping cases, the first case (from the TOP) is given the first preference.
+
+```go
+i := 1
+switch {
+case i <= 10:
+  fmt.Println("less than or equal to ten")
+  fallthrough
+case i <= 20:
+  fmt.Println("less than or equal to twenty")
+```
+
+- In addition to values, or mathemtical expressions, we can also create a switch statement to compare the type of a variable:
+
+```go
+var j interface{} = 1 // j holds an int type.
+switch j.(type) {
+	case int:
+		fmt.Println("j is an int")
+	case float64:
+		fmt.Println("j is a float")
+  //...
+```
