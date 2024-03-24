@@ -358,6 +358,8 @@ case i <= 10:
   fallthrough
 case i <= 20:
   fmt.Println("less than or equal to twenty")
+// ...
+}
 ```
 
 - In addition to values, or mathemtical expressions, we can also create a switch statement to compare the type of a variable:
@@ -365,9 +367,29 @@ case i <= 20:
 ```go
 var j interface{} = 1 // j holds an int type.
 switch j.(type) {
-	case int:
-		fmt.Println("j is an int")
-	case float64:
-		fmt.Println("j is a float")
-  //...
+case int:
+  fmt.Println("j is an int")
+case float64:
+  fmt.Println("j is a float")
+//...
+}
 ```
+
+## Looping
+
+### Simple loops
+
+- `for initializer; test; incrementer {}`
+- `for test {}`
+- `for {}`
+
+### Exiting early
+
+- `break`
+- `continue`
+- Labels (for exiting out of entire nested loops)
+
+### Looping over collections
+
+- arrays, slices, maps, strings, channels (will be discussed later)
+- `for k, v := range collection {}`
