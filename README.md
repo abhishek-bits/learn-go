@@ -393,3 +393,30 @@ case float64:
 
 - arrays, slices, maps, strings, channels (will be discussed later)
 - `for k, v := range collection {}`
+
+## Defer, Panic and Recover
+
+### `defer`
+
+- Any function followed by `defer` keyword will execute only after all all the statements in the parent function are executed but before it actually returns.
+- `defer` functions are executed in **LIFO** order.
+- `defer` functions take the values of function parameteres exactly as they were declared before the defer call. Any updates to these variables later on are not considered by `defer`.
+- Should not be used when using loops to read resources otherwise we can have memory issues.
+- `defer` gets higher priority than `panic()` i.e. panic happends after all deferred statements are executed.
+
+### `panic()`
+
+- In Go, we generally don't consider things that could go wrong in an application to be _exceptional_ events or to be events that should cause the application to shutdown.
+- panics referred to a state when the application gets into a state that it cannot recover from. Ex: division by zero.
+- Functions will stop executing immediately at the point of panic.
+  - Deferred functions will still fire.
+- If nothing handles panic, program will exit.
+- If there is a panicking situation we feel that we can recover from then we can use `recover()`.
+
+### `recover()`
+
+- `recover()` method simply states that the application is in a state that it can continue to execute.
+- Used to recover from panics.
+- Only useful in deferred functions. Why? Because deferred functions will execute even after a panic siutation.
+- However, before we can proceed to the rest of the "good" part we need to go through the `recover()` logic so that the error can be acknowledged.
+- Additionally, if we want our application to terminate immediately whenever any panic happens, once `recover()` logic is read, we can re-call the `panic()` method.
