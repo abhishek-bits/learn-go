@@ -420,3 +420,39 @@ case float64:
 - Only useful in deferred functions. Why? Because deferred functions will execute even after a panic siutation.
 - However, before we can proceed to the rest of the "good" part we need to go through the `recover()` logic so that the error can be acknowledged.
 - Additionally, if we want our application to terminate immediately whenever any panic happens, once `recover()` logic is read, we can re-call the `panic()` method.
+
+## Pointers
+
+### Creating Pointers
+
+- Pointer types use an asterisk (`*`) as a prefix to type pointed to
+  - `*int*` - a pointer to an integer.
+- Use the addressof operator (`&`) to get address of variable.
+
+### De-Referencing Pointers
+
+- Dereference a pointer by preceding with an asterisk (`*`).
+- Complex types (e.g. structs) are automatically dereferenced.
+
+### Create Pointers to Objects
+
+- Can use the addressof operator (`&`) if value type already exists
+
+```go
+ms := myStruct{foo: 42}
+p := &ms
+```
+
+- Use addressof operator before initializer
+
+```go
+p := &myStruct{foo: 42}
+```
+
+- Use the `new` keyword.
+  - Can't initialize fields at the same time.
+
+### Types with Internal Pointers
+
+- All assignment operations in Go are copy operation except **Slices** and **Maps**.
+- **Slices** and **Maps** contain internal pointers, so copies point to same underlying data.
