@@ -456,3 +456,133 @@ p := &myStruct{foo: 42}
 
 - All assignment operations in Go are copy operation except **Slices** and **Maps**.
 - **Slices** and **Maps** contain internal pointers, so copies point to same underlying data.
+
+## Functions
+
+- The entry-point of the Go application is always within the `main` _package_ and withing that `main` _package_ we have to have a function called `main()` which takes no parameters and returns no values.
+
+- The **lowercase first letter** of the method name means that the scope of the method is **private** whereas it will be **public** for **uppercase first letter**.
+
+- Passing in pointers as arguments turn out to be very useful as they help us avoid passing very large struct's as a copy.
+
+```go
+func foo() {
+  // ...
+}
+```
+
+### Parameters
+
+- Parameters as comma delimited list of variables and types
+
+```go
+func foo(bar string, baz int)
+```
+
+- Parameters of same type; list type once
+
+```go
+func foo(bar, baz int)
+```
+
+- When pointers are passed in, the function can change the value in the caller
+
+  - This is **always true** for data of **slices** and **maps**.
+
+- Use _variatic parameters_ to send the list of same types in
+  - Must be the last parameter
+  - Recevied as a slice
+  - In the below example, baz is a variatic parameter which internally is a slice of integers
+
+```go
+func foo(bar string, baz ...int)
+```
+
+### Return values
+
+- Single return values just list its type
+
+```go
+func foo() int {
+  result := 0
+  // ...
+  return result
+}
+```
+
+- Specify **multiple return values** surrounded by parantheses. In the example below, we return the result and an error as `(result type, error)`, which is very common idiom.
+
+```go
+func foo() (int, error)
+```
+
+- Can use **named return values**
+  - Initializes returned variable.
+  - Return using `return` keyword on its own.
+
+```go
+func foo() (int, error) (result int) {
+  return
+}
+```
+
+- Can return addresses of local variables
+  - In this case, such varibles are automatically promoted from local memory (stack) to shared memory (heap).
+
+### Anonymous functions
+
+These are the functions that do not have any names. Local variables created inside these functions will not have be visible outside. But inner anonymous functions can make use of the variables available outside the scope.
+
+- Immediately invoked
+
+```go
+func() {
+  // ...
+}()
+```
+
+- Assigned to a variable or passed as an argument to a function
+
+```go
+a := func() {
+  // ...
+}
+a()
+```
+
+### Type Signature
+
+This is basically a function signature, with no parameter names.
+
+It is often most convenient when assigning anonymous functions to a variable using the `:=` syntax and the type is going to be automatically inferred.
+
+However, if we are:
+
+- using a **function as a parameter** to another function
+- or **as a return value** from a function
+
+then it is compulsory to provide the type signature.
+
+```go
+var f func(string, string, int) (int, error)
+```
+
+### Methods
+
+Function that executes in context of a type.
+
+General Syntax:
+
+```go
+func (g greeter) greet() {
+  // ...
+}
+```
+
+Receiver (here the type `greater`) can either be a value or a pointer.
+
+- Value receiver gets copy of type.
+  - Inefficient memory utilization: As for every single method invocation, entire object is copied into memory.
+  - Changes made to the properties of the object will not reflect in the original object.
+- Pointer receiver gets pointer to type.
+  - Efficient memory utilization as only the memory location is passed on.
