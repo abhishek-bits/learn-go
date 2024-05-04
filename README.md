@@ -586,3 +586,88 @@ Receiver (here the type `greater`) can either be a value or a pointer.
   - Changes made to the properties of the object will not reflect in the original object.
 - Pointer receiver gets pointer to type.
   - Efficient memory utilization as only the memory location is passed on.
+
+## Interfaces
+
+- Declaring the interface:
+
+```go
+type Writer interface {
+  Write([]byte)(int, error)
+}
+```
+
+- Declaring the struct to embed this functionality:
+
+```go
+type ConsoleWriter struct {}
+```
+
+- Implementing the interface:
+
+```go
+func (cw ConsoleWriter) Write(dat []byte)(int, error) {
+  n, err = fmt.Println(string(daata))
+  return n, err
+}
+```
+
+- We can embed multiple interfaces together into one interface:
+
+```go
+type Closer interface {
+  Close() error
+}
+
+type WriterCloser interface {
+  Writer
+  Closer
+}
+```
+
+- Type Conversion:
+
+```go
+var wc WriterCloser = NewBufferedWriterCloser()
+bwc := wc.(*BufferedWriterCloser)
+```
+
+- Everything can be cast(ed) to an empty `interface`; even primitives.
+
+```go
+var i interface{} = 0 // int
+```
+
+### Implementing Interfaces
+
+Here, we use the concept of **Method Sets**.
+
+When we are implementing an interface:
+
+- If we use a value type, then all the methods that implement the interface have to have a value receiver only. In other words, _The method set for a value type is the set of all methods that have value receivers_.
+
+- If we are implenting the interface with a pointer then we need not worry about the about the type of receiver used. In other words, _The method set for a pointer is the sum of all the methods with value receivers and all of the methods with pointer receivers_.
+
+### Best Practices
+
+- **Use many, small interfaces**. The smaller interfaces are, the more useful and powerful they are gonna be.
+
+  - Single method interfaces are some of the most powerful and flexible.
+    - `io.Writer`
+    - `io.Reader`
+    - `interface{}` // empty interface
+
+- **Don't export interfaces for types that will be consumed**.
+
+  - If we are creating a library and someone else will be consuming the type then in this case it is better to go ahead and publish that concrete type itself.
+  - Example: `db` package.
+
+- **Do export interfaces for types that will be used by the package**.
+
+  - If we are defining a type that we will be consuming in the package then in this case, it is better to export interfaces.
+  - This way, whoever is using the package can create their own concrete types and implement the interfaces that we need.
+  - Hence, we don't have to worry about the implementation; instead we are only concerned about the behaviors that they are exposing to us.
+
+- **Design functions and methods to receive interfaces whenever possible**.
+  - If we have the option to receive interfaces, in case we don't need the underlying data (variables) then we should go ahead and define the interfaces that we are expecting.
+  - That way, we are making our methods and functions more flexible as we can have variours implementations to support different business objectives.
