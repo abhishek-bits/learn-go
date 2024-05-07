@@ -671,3 +671,48 @@ When we are implementing an interface:
 - **Design functions and methods to receive interfaces whenever possible**.
   - If we have the option to receive interfaces, in case we don't need the underlying data (variables) then we should go ahead and define the interfaces that we are expecting.
   - That way, we are making our methods and functions more flexible as we can have variours implementations to support different business objectives.
+
+## GoRoutines
+
+- Tool to implement concurrent programming.
+
+### Creating GoRoutines
+
+- Use `go` keyword in front of function call.
+- When using anonymous functions, pass data as local variables.
+
+### Synchronization
+
+Often times concurrent threads would request and override same resource.
+
+#### WaitGroups
+
+Use `sync.WatiGroup` to wait for groups of goroutines to complete. Three methods available in `sync.WaitGroup` are:
+
+- `add()` to inform the wait-groups that we have more goroutines to wait for.
+- `wait()` to wait until all goroutines in wait-group are completed.
+- `done()` to notify the wait-group that one of the goroutine is completed with its work.
+
+#### Mutexes
+
+Use `sync.Mutex` and `sync.RWMutex` to protect shared data access.
+
+### Parallelism
+
+- By default, Go will use # CPU threads equal to available cores.
+- We can change the degree of parallelism with `runtime.GOMAXPROCS`.
+- More threads can increase performance, but too many can slow it down.
+
+### Best Practices
+
+- Don't create goroutines in libraries
+  - Let consumer control concurrency.
+- When creating a goroutine, know how it will end.
+  - Avoid subtle memory leaks.
+- Before we deploy our application into production, find out with which degree of parallelism, our application runs most efficient.
+- Check for **race conditions** at compile time.
+  - Go compiler itself comes with this solution:
+
+```shell
+go run -race main.go
+```
