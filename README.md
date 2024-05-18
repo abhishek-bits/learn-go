@@ -716,3 +716,85 @@ Use `sync.Mutex` and `sync.RWMutex` to protect shared data access.
 ```shell
 go run -race main.go
 ```
+
+## Channels
+
+Channels are a way to pass data among **goroutines** in a safe manner and prevent issues such as Race Condition and memory sharing problems that can cause issues in your applications that are very difficult to debug.
+
+In short, Channels support Data Synchronization for **goroutines**.
+
+- Channels are created using `chan` keyword.
+
+```go
+ch := make(chan int)
+```
+
+- Send message into the channel:
+
+```go
+ch <- val
+```
+
+- Receive message from channel:
+
+```go
+val := <-ch
+```
+
+- We can have multiple senders and receivers
+
+- By default Channels are Bi-Directional, but we can restrict the flow of information:
+
+  - Send-only: `chan <- int`
+  - Receive-only: `<-chan int`
+
+-
+
+### Buffered Channels
+
+- Block sender side till the receiver is available.
+- Block receiver side till message is available.
+
+```go
+ch := make(chan int, 50)
+```
+
+When both the sender or receiver operate at a different frequency than the other side.
+
+**Practical Application**: When the sender sends bulk requests in intervals of every 1 hr / day / months. Then we have to have a buffer at the recevier's end to store that much amount of data to be processed.
+
+This way our channel that is receiving the data does not deadlock as it always has a buffer to store the data.
+
+### For-Range loops with Channels
+
+- Use to monitor channel and process messages as they arrive.
+- Loop exits when channel is closed.
+
+### Select statements with Channels
+
+Allows goroutines to monitor several channels at once.
+
+```go
+for {
+  select {
+  case entry := <-logCh:
+    fmt.Printf(
+      "%v - [%v]%v\n",
+      entry.time.Format("2006-01-02T15:04:05"),
+      entry.severity,
+      entry.message)
+  case <-doneCh:
+    break
+  }
+}
+```
+
+- **Blocks if all channels block**
+
+  - If there is no message available in any channel than select statement is blocked by default and then when a message comes in it will be processed
+
+- **If multiple channels receive value simultaneously, behavior is undefined**
+  - Because of the highly parallel nature of many Go applications, we can get into situations where messages arrive on two channels at the same time virtually at the same time.
+  - So one of those cases will get executed from the `select` block but we can't be sure which one's going to get executed.
+  - So the ordering of statements in `select` really doesn't matter from the standpoint of how those conflicts are going to get resolved.
+  - However, if we do want a non blocking `select` sttement, we can add the `default` case here. So, if there are no messages in any of the monitored channels, then the default case will go ahead and fire.
