@@ -24,7 +24,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method != "GET" {
-		http.Error(w, "Method is not supported", http.StatusNotFound)
+		http.Error(w, "Method is not supported", http.StatusMethodNotAllowed)
 		return
 	}
 	fmt.Fprintf(w, "Hello!")
@@ -38,6 +38,7 @@ func main() {
 
 	fmt.Println("Starting server at port 8080")
 
+	// Create a Web Server
 	if err := http.ListenAndServe(":8080", nil); err != nil {
 		log.Fatal(err)
 	}
