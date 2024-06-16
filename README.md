@@ -798,3 +798,60 @@ for {
   - So one of those cases will get executed from the `select` block but we can't be sure which one's going to get executed.
   - So the ordering of statements in `select` really doesn't matter from the standpoint of how those conflicts are going to get resolved.
   - However, if we do want a non blocking `select` sttement, we can add the `default` case here. So, if there are no messages in any of the monitored channels, then the default case will go ahead and fire.
+
+## Install `gorilla/mux` library
+
+`gorilla/mux` is a router and dispatcher handler for matching incoming requests to their respective handler.
+
+Steps to install:
+
+1. Create a directory under `src` wherein we are using `gorilla/mux` library. Let's assume the directory name is _crud_app_.
+
+2. Create `go.mod` file within `D:/Go/src` and put the below content within this file:
+
+```go
+module crud_app
+
+go 1.21.5
+```
+
+3. Open terminal and navigate to directory _crud_app_.
+
+4. Run the below command:
+
+```bash
+go get 'github.com/gorilla/mux'
+```
+
+## Using `gorilla/mux` to handle API requests
+
+```go
+func main() {
+  r := mux.NewRouter()
+
+  r.HandleFunc("/movies", getMovies).Methods("GET")
+	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
+	r.HandleFunc("/movies", createMovie).Methods("POST")
+	r.HandleFunc("/movies/{id}", updateMovie).Methods("PUT")
+	r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
+
+}
+```
+
+Here, the second parameter of `HandleFunc` method is a function that we need to execute with first parameter being `http.ResponseWriter` and second parameter being `*http.Request`.
+
+## Create a Web Server
+
+To create a Web Server in Go, use the below code:
+
+```go
+if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
+```
+
+In short form, we can use:
+
+```go
+log.Fatal(http.ListenAndServe(":8000", r))
+```
